@@ -137,7 +137,7 @@ const OrderTracking: React.FC = () => {
   };
 
   const handleWhatsAppContact = () => {
-    const phone = "5551999999999";
+    const phone = "5551982961257";
     window.open(
       `https://wa.me/${phone}?text=Olá, estou com dúvidas sobre meu pedido.`
     );

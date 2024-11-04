@@ -31,11 +31,15 @@ const Footer: React.FC = () => {
                 alt="Nato Pisos Logo"
                 style={{ width: "200px", filter: "brightness(0) invert(1)" }}
               />
-              <Typography variant="h5" fontWeight="bold" color="#E6E3DB"></Typography>
+              <Typography
+                variant="h5"
+                fontWeight="bold"
+                color="#E6E3DB"
+              ></Typography>
             </motion.div>
           </Box>
         </Grid>
-        
+
         <Grid item xs={12} md={4}>
           <Box textAlign="center">
             <Typography variant="body1" sx={{ mb: 1 }}>
@@ -44,13 +48,18 @@ const Footer: React.FC = () => {
             </Typography>
             <Typography variant="body1">
               <PhoneIcon sx={{ mr: 1 }} />
-              +55 11 91234-6687
+              +55 51 98296-1257
             </Typography>
           </Box>
         </Grid>
-        
+
         <Grid item xs={12} md={4}>
-          <Box display="flex" justifyContent="center" alignItems="center" gap={2}>
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            gap={2}
+          >
             <IconButton
               aria-label="Instagram"
               sx={{ color: "#E6E3DB" }}
@@ -90,7 +99,6 @@ const Footer: React.FC = () => {
           © {new Date().getFullYear()} Nato Pisos - Todos os direitos reservados
         </Typography>
       </Box>
-
     </Box>
   );
 };

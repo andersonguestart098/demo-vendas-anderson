@@ -242,57 +242,11 @@ const Checkout: React.FC = () => {
 
   const handleCardSubmit = async (event: any) => {
     event.preventDefault();
-    if (!cardFormInstance) return;
 
-    const formData = cardFormInstance.getCardFormData();
-    if (!formData.token || !formData.installments || !formData.issuerId) {
-      alert("Por favor, preencha todos os campos obrigatórios.");
-      return;
-    }
-
-    const paymentData = {
-      token: formData.token,
-      issuer_id: formData.issuerId,
-      payment_method_id: formData.paymentMethodId,
-      transaction_amount: Number(checkoutData.amount || 100.5),
-      installments: Number(formData.installments || 1),
-      description: "Descrição do produto",
-      payer: {
-        email: formData.cardholderEmail,
-        first_name: formData.cardholderName
-          ? formData.cardholderName.split(" ")[0]
-          : "",
-        last_name: formData.cardholderName
-          ? formData.cardholderName.split(" ").slice(1).join(" ")
-          : "",
-        identification: {
-          type: formData.identificationType,
-          number: formData.identificationNumber,
-        },
-      },
-      userId: checkoutData.userId,
-    };
-
-    try {
-      const response = await fetch(
-        "https://ecommerce-fagundes-13c7f6f3f0d3.herokuapp.com/payment/process_payment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(paymentData),
-        }
-      );
-
-      if (response.ok) {
-        // Marca o pedido como concluído e navega para a página de sucesso
-        handlePaymentSuccess("card");
-      } else {
-        alert("Pagamento pendente ou falhou.");
-      }
-    } catch (error) {
-      console.error("Erro ao finalizar o pagamento:", error);
-      alert("Erro ao finalizar o pagamento.");
-    }
+    alert(
+      "Este é um modo de demonstração. Nenhum pagamento real será processado."
+    );
+    handlePaymentSuccess("card");
   };
 
   const calculateTransactionAmount = () => {
@@ -315,99 +269,14 @@ const Checkout: React.FC = () => {
   };
 
   const generatePixQrCode = async () => {
-    if (checkoutData.isCompleted) {
-      alert("Este pedido já foi pago.");
-      return;
-    }
-
-    const transactionAmount = calculateTransactionAmount();
-    if (transactionAmount === null) return;
-
-    try {
-      const response = await fetch(
-        "https://ecommerce-fagundes-13c7f6f3f0d3.herokuapp.com/payment/process_payment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            payment_method_id: "pix",
-            transaction_amount: transactionAmount,
-            description: "Pagamento via Pix",
-            payer: {
-              email: checkoutData.email,
-              first_name: checkoutData.firstName,
-              last_name: checkoutData.lastName,
-              identification: {
-                type: checkoutData.identificationType,
-                number: checkoutData.identificationNumber,
-              },
-            },
-            userId: checkoutData.userId,
-          }),
-        }
-      );
-
-      const result = await response.json();
-      if (
-        response.ok &&
-        result.point_of_interaction?.transaction_data?.qr_code_base64
-      ) {
-        const qrCodeData = `data:image/png;base64,${result.point_of_interaction.transaction_data.qr_code_base64}`;
-        handlePaymentSuccess("pix", qrCodeData);
-      } else {
-        alert("Erro ao gerar QR code Pix: " + result.error);
-      }
-    } catch (error) {
-      console.error("Erro ao processar pagamento com Pix:", error);
-      alert("Erro ao processar pagamento com Pix.");
-    }
+    const qrCodeData =
+      "https://wiki.sj.ifsc.edu.br/images/e/e0/LigueEngtelecomQR.gif";
+    handlePaymentSuccess("pix", qrCodeData);
   };
 
   const generateBoleto = async () => {
-    if (checkoutData.isCompleted) {
-      alert("Este pedido já foi pago.");
-      return;
-    }
-
-    const transactionAmount = calculateTransactionAmount();
-    if (transactionAmount === null) return;
-
-    try {
-      const response = await fetch(
-        "https://ecommerce-fagundes-13c7f6f3f0d3.herokuapp.com/payment/process_payment",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            payment_method_id: "bolbradesco",
-            transaction_amount: transactionAmount,
-            description: "Pagamento via Boleto Bancário",
-            payer: {
-              email: checkoutData.email,
-              first_name: checkoutData.firstName,
-              last_name: checkoutData.lastName,
-              identification: {
-                type: checkoutData.identificationType,
-                number: checkoutData.identificationNumber,
-              },
-            },
-            userId: checkoutData.userId,
-          }),
-        }
-      );
-
-      const result = await response.json();
-      if (response.ok && result.boleto_url) {
-        handlePaymentSuccess("boleto", null, result.boleto_url);
-      } else {
-        alert(
-          "Erro ao gerar boleto: " + (result.message || "Erro desconhecido")
-        );
-      }
-    } catch (error) {
-      console.error("Erro ao processar pagamento com boleto:", error);
-      alert("Erro ao processar pagamento com boleto.");
-    }
+    const boletoUrlData = "https://devtools.com.br/gerador-boleto/imprimir.php";
+    handlePaymentSuccess("boleto", null, boletoUrlData);
   };
 
   const handleContinue = async () => {
