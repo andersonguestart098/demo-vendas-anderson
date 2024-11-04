@@ -368,7 +368,7 @@ const Checkout: React.FC = () => {
             <TextField
               fullWidth
               id="form-checkout__cardNumber"
-              placeholder="Número do cartão"
+              placeholder="Número do Cartão"
               onChange={(e) => updateCardPreview("cardNumber", e.target.value)}
               sx={{ mb: 2 }}
             />
