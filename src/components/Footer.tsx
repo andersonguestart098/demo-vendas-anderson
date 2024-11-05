@@ -29,7 +29,7 @@ const Footer: React.FC = () => {
             >
               <img
                 src="/icones/logo.png"
-                alt="Nato Pisos Logo"
+                alt="NatoPisosLogo"
                 style={{ width: "150px", filter: "brightness(0) invert(1)" }}
               />
             </motion.div>
